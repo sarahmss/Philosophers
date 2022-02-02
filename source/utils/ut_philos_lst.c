@@ -6,21 +6,30 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:42:22 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/01 19:53:48 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/02/02 11:15:06 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philosophers.h"
 
-t_philos	*create_philosopher(int index)
+t_philos	*create_philosopher(int index, t_time *time)
 {
 	t_philos	*philos;
 
 	philos = (t_philos *)malloc(sizeof(t_philos));
 	if (!philos)
 		ft_check_error(EALLOC, "Creating philosophers", -1);
-	philos->interations = 0;
 	philos->philo_num = index;
+	philos->time.eaten_times = 0;
+	philos->time.last_meal = time->last_meal;
+	philos->time.ms_die = time->ms_die;
+	philos->time.ms_sleep = time->ms_sleep;
+	philos->time.ms_eat = time->ms_eat;
+	philos->time.ms_start = time->ms_start;
+	philos->time.must_eat = time->must_eat;
+	philos->tid = 0;
+	philos->state = THINKING;
+	pthread_mutex_init(&philos->mutex_lock, NULL);
 	philos->prev = NULL;
 	philos->next = NULL;
 	return (philos);
@@ -29,11 +38,11 @@ t_philos	*create_philosopher(int index)
 /*
 Insert a new element at the top of a doubly linked list
 */
-t_philos	*tk_insert_at_head(int index, t_philos *head)
+t_philos	*tk_insert_at_head(int index, t_philos *head, t_time *time)
 {
 	t_philos	*new_philo;
 
-	new_philo = create_philosopher(index);
+	new_philo = create_philosopher(index, time);
 	if (head == NULL)
 		head = new_philo;
 	else
@@ -48,12 +57,12 @@ t_philos	*tk_insert_at_head(int index, t_philos *head)
 /*
 Insert a new element at the bottom of a doubly linked list
 */
-void	philo_insert_at_foot(int philo_num, t_philos *head)
+void	philo_insert_at_foot(int philo_num, t_philos *head, t_time *time)
 {
 	t_philos	*new_node;
 	t_philos	*temp;
 
-	new_node = create_philosopher(philo_num);
+	new_node = create_philosopher(philo_num, time);
 	temp = head;
 	if (temp->next == NULL)
 	{
@@ -82,6 +91,7 @@ void	philo_del(t_philos **head, t_philos *del)
 		del->next->prev = del->prev;
 	if (del->prev != NULL)
 		del->prev->next = del->next;
+	pthread_mutex_destroy(&del->mutex_lock);
 	free(del);
 }
 
