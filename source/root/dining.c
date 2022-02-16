@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:57:42 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/02 11:22:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/02/16 17:01:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 */
 void	pickup_forks(t_philos *philo)
 {
-	if (check_able_to_eat(philo))
-	{
-		pthread_mutex_lock(&philo->mutex_lock);
-		pthread_mutex_lock(&philo->next->mutex_lock);
-	}
+	philo->state = TAKING_FORK;
+	pthread_mutex_lock(&philo->mutex_lock);
+	run_action(philo);
+	pthread_mutex_lock(&philo->next->mutex_lock);
+	run_action(philo);
 	philo->state = EATING;
 }
 
@@ -43,7 +43,8 @@ void	*philosopher_routine(void *param)
 	philo = (t_philos *)param;
 	while (!check_if_died(philo) && !check_full_stomach(philo))
 	{
-		print_action(THINKING, philo->philo_num);
+		philo->state = THINKING;
+		run_action(philo);
 		if (check_able_to_eat(philo))
 		{
 			pickup_forks(philo);
@@ -74,7 +75,7 @@ void	create_philo_thread(t_dining_table *dt)
 
 	i = 0;
 	philo = dt->philos;
-	while (i < dt->philo_num)
+	while (i < dt->philo_num && !check_if_died(philo))
 	{
 		pthread_create(&philo->tid, NULL, philosopher_routine, philo);
 		philo = philo->next;

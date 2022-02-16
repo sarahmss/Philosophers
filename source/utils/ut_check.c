@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 21:48:54 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/02 11:22:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/02/16 16:48:59 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ int	check_if_died(t_philos *philos)
 			return (1);
 		philo_temp = philo_temp->next;
 	}
+	if (philo_temp->state == DIED)
+		return (1);
 	return (0);
 }
