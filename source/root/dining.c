@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:57:42 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/16 17:01:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:00:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,22 @@ void	pickup_forks(t_philos *philo)
 {
 	philo->state = TAKING_FORK;
 	pthread_mutex_lock(&philo->mutex_lock);
-	run_action(philo);
+	run_action(philo, &philo->res_write);
+	if (philo->next == philo)
+	{
+		delay(philo->time.ms_die);
+		define_dead(philo->time.ms_start, philo, philo->time.ms_die,
+			&philo->res_write);
+	}
 	pthread_mutex_lock(&philo->next->mutex_lock);
-	run_action(philo);
+	run_action(philo, &philo->res_write);
 	philo->state = EATING;
 }
 
 /*
 	When a philosopher has finished eating, they put their forks back on the
 	table and start sleeping.
+	printf("--%d. droped forks\n", p->philo_num);
 */
 void	return_forks(t_philos *philo)
 {
@@ -38,21 +45,21 @@ void	return_forks(t_philos *philo)
 
 void	*philosopher_routine(void *param)
 {
-	t_philos		*philo;
+	t_philos		*p;
 
-	philo = (t_philos *)param;
-	while (!check_if_died(philo) && !check_full_stomach(philo))
+	p = (t_philos *)param;
+	if (p->philo_num % 2 == 0)
+		delay(60);
+	while (!check_if_died(p) && !check_full_stomach(p))
 	{
-		philo->state = THINKING;
-		run_action(philo);
-		if (check_able_to_eat(philo))
+		if (check_able_to_eat(p))
 		{
-			pickup_forks(philo);
-			st_action(EATING, philo->time.ms_eat, philo);
-			return_forks(philo);
+			pickup_forks(p);
+			st_action(EATING, p->time.ms_eat, p, &p->res_write);
+			return_forks(p);
 		}
-		define_dead(philo->time.ms_start, philo, philo->time.ms_die);
-		run_action(philo);
+		define_dead(p->time.ms_start, p, p->time.ms_die, &p->res_write);
+		run_action(p, &p->res_write);
 	}
 	return (NULL);
 }
@@ -75,7 +82,7 @@ void	create_philo_thread(t_dining_table *dt)
 
 	i = 0;
 	philo = dt->philos;
-	while (i < dt->philo_num && !check_if_died(philo))
+	while (i < dt->philo_num)
 	{
 		pthread_create(&philo->tid, NULL, philosopher_routine, philo);
 		philo = philo->next;

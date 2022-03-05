@@ -6,19 +6,20 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:42:22 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/02 11:15:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 13:53:50 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philosophers.h"
 
-t_philos	*create_philosopher(int index, t_time *time)
+t_philos	*create_philosopher(int index, t_time *time, pthread_mutex_t *rw)
 {
 	t_philos	*philos;
 
 	philos = (t_philos *)malloc(sizeof(t_philos));
 	if (!philos)
 		ft_check_error(EALLOC, "Creating philosophers", -1);
+	philos->res_write = *rw;
 	philos->philo_num = index;
 	philos->time.eaten_times = 0;
 	philos->time.last_meal = time->last_meal;
@@ -38,11 +39,12 @@ t_philos	*create_philosopher(int index, t_time *time)
 /*
 Insert a new element at the top of a doubly linked list
 */
-t_philos	*tk_insert_at_head(int index, t_philos *head, t_time *time)
+t_philos	*tk_insert_at_head(int index, t_philos *head, t_time *time,
+			pthread_mutex_t *rw)
 {
 	t_philos	*new_philo;
 
-	new_philo = create_philosopher(index, time);
+	new_philo = create_philosopher(index, time, rw);
 	if (head == NULL)
 		head = new_philo;
 	else
@@ -57,12 +59,13 @@ t_philos	*tk_insert_at_head(int index, t_philos *head, t_time *time)
 /*
 Insert a new element at the bottom of a doubly linked list
 */
-void	philo_insert_at_foot(int philo_num, t_philos *head, t_time *time)
+void	philo_insert_at_foot(int philo_num, t_philos *head, t_time *time,
+		pthread_mutex_t *rw)
 {
 	t_philos	*new_node;
 	t_philos	*temp;
 
-	new_node = create_philosopher(philo_num, time);
+	new_node = create_philosopher(philo_num, time, rw);
 	temp = head;
 	if (temp->next == NULL)
 	{
@@ -107,6 +110,7 @@ void	free_lst(t_philos *head)
 	while (current->next != head)
 	{
 		next = current->next;
+		pthread_mutex_destroy(&current->mutex_lock);
 		free (current);
 		current = next;
 	}

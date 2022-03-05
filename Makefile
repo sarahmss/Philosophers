@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2022/02/16 16:16:34 by smodesto         ###   ########.fr        #
+#    Updated: 2022/03/05 15:40:15 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS_FILES =	root/Philo.c			\
 				utils/ut_lft.c			\
 				utils/ut_error_manager.c\
 				utils/ut_philos_lst.c	\
+				utils/ut_time.c			\
 				utils/ut_check.c
 
 

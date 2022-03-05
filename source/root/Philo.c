@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:22:56 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/02 08:55:36 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 15:51:44 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 
 int	main(int argc, char *argv[])
 {
-	char			msg[55];
-	t_dining_table	*dt;
-	suseconds_t		ms_start;
+	char				msg[55];
+	t_dining_table		*dt;
+	long long int		ms_start;
 
 	ms_start = get_current_time();
 	ft_strcpy(msg, "./philo num_philo ms_die ms_eat ms_sleep num_must_eat");

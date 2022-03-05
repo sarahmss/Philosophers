@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:10:28 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/01 18:43:43 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 13:46:34 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	before_living(t_dining_table *dt)
 {
 	free_lst(dt->philos);
+	pthread_mutex_destroy(&dt->res_write);
 	free(dt);
 	return ;
 }

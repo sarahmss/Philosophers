@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:44:46 by smodesto          #+#    #+#             */
-/*   Updated: 2022/02/02 10:45:36 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 13:46:42 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ typedef enum e_states
 
 typedef struct s_time
 {
-	suseconds_t		ms_die;
-	suseconds_t		ms_eat;
-	suseconds_t		ms_sleep;
-	suseconds_t		ms_start;
-	suseconds_t		last_meal;
+	long long int	ms_die;
+	long long int	ms_eat;
+	long long int	ms_sleep;
+	long long int	ms_start;
+	long long int	last_meal;
 	int				eaten_times;
 	int				must_eat;
 }		t_time;
@@ -64,6 +64,7 @@ typedef struct s_philos
 	pthread_t			tid;
 	t_states			state;
 	pthread_mutex_t		mutex_lock;
+	pthread_mutex_t		res_write;
 	t_time				time;
 	struct s_philos		*next;
 	struct s_philos		*prev;
@@ -71,11 +72,12 @@ typedef struct s_philos
 
 typedef struct s_dining_table
 {
-	int				philo_num;
-	int				num_each_must_eat;
-	int				eaten_times;
-	t_time			time;
-	t_philos		*philos;
+	int					philo_num;
+	int					num_each_must_eat;
+	int					eaten_times;
+	pthread_mutex_t		res_write;
+	t_time				time;
+	t_philos			*philos;
 }		t_dining_table;
 
 #endif
