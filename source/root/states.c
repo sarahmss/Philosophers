@@ -6,21 +6,21 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:31:28 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 16:00:24 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:15:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philosophers.h"
 
-int	define_dead(long long int ms_start, t_philos *philosopher,
-	long long int ms_die, pthread_mutex_t *res_write)
+int	define_dead(t_philos *philosopher, long long int ms_die,
+	pthread_mutex_t *res_write)
 {
-	if ((ms_start - philosopher->time.last_meal) >= ms_die)
+	if (philosopher->time.last_meal >= ms_die)
 	{
 		philosopher->state = DIED;
 		print_action(DIED, philosopher->philo_num, philosopher->time.ms_start,
 			res_write);
-		exit (0);
+		return (1);
 	}
 	return (0);
 }
@@ -35,8 +35,8 @@ void	st_action(t_states action, long long int time_ms, t_philos *philo,
 		philo->time.eaten_times++;
 		philo->time.last_meal = formated_time(philo->time.ms_start);
 		if (philo->time.ms_die < philo->time.ms_sleep)
-			define_dead(philo->time.ms_start, philo, philo->time.ms_die,
-				&philo->res_write);
+			define_dead(philo, philo->time.ms_die, &philo->res_write);
+		check_full_stomach(philo);
 	}
 	if (action == SLEEPING)
 		philo->state = THINKING;
@@ -44,6 +44,8 @@ void	st_action(t_states action, long long int time_ms, t_philos *philo,
 
 void	run_action(t_philos *philo, pthread_mutex_t *rw)
 {
+	if (philo->end == true)
+		return ;
 	if (philo->state == TAKING_FORK)
 		print_action(TAKING_FORK, philo->philo_num, philo->time.ms_start, rw);
 	if (philo->state == EATING)

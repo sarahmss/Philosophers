@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:52:10 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 16:04:08 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:16:24 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			before_living(t_dining_table *dt);
 int				ft_strlen(const char *str);
 int				ft_atoi(const char *str);
 char			*ft_strcpy(char *destination, const char *source);
-int				ft_strlen(const char *str);
+char			*ft_join_var(unsigned int arg_quantity, ...);
 
 t_philos		*create_philosopher(int index, t_time *time,
 					pthread_mutex_t *rw);

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:44:46 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 13:46:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:11:04 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef enum e_errcode
 	EXITSUCESS,
 	EUSAGE,
 	EALLOC,
+	EPTHREAD_FUNC,
 	__ERRMAX
 }		t_errcode;
 
@@ -66,6 +67,7 @@ typedef struct s_philos
 	pthread_mutex_t		mutex_lock;
 	pthread_mutex_t		res_write;
 	t_time				time;
+	t_bool				end;
 	struct s_philos		*next;
 	struct s_philos		*prev;
 }		t_philos;

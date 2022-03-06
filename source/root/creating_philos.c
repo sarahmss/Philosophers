@@ -6,11 +6,60 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:44:12 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 23:16:55 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:07:10 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philosophers.h"
+
+/*
+	pthread_join:
+		1º paramater: thread wich pthread_join will waits to terminate
+		2º paramater: where pthread_join copies the exit status
+		of the target thread
+*/
+int	join_philo_thread(t_philos *philosophers, int philo_num)
+{
+	t_philos	*philo;
+	int			i;
+
+	i = 0;
+	philo = philosophers;
+	while (i < philo_num)
+	{
+		if (pthread_join(philo->tid, NULL) != 0)
+			return (ft_check_error(EPTHREAD_FUNC, "Fail joining thread", 1));
+		philo = philo->next;
+		i++;
+	}
+	return (0);
+}
+
+/*
+	pthread_create:
+		1º paramater: pthread_t == ID returned by pthread_create
+		2º paramater: optionall(determine attributes for the new thread)
+		3º paramater: The new thread starts execution by invoking start_routine
+		4º paramater: arguments utilized by start_routine
+*/
+int	create_philo_thread(t_dining_table *dt)
+{
+	int			i;
+	t_philos	*philo;
+
+	i = 0;
+	philo = dt->philos;
+	while (i < dt->philo_num)
+	{
+		if (pthread_create(&philo->tid, NULL, philosopher_routine, philo) != 0)
+			return (ft_check_error(EPTHREAD_FUNC, "Fail creating thread", 1));
+		philo = philo->next;
+		i++;
+	}
+	join_philo_thread(dt->philos, dt->philo_num);
+	print_exit_status(philo);
+	return (0);
+}
 
 t_philos	*creating_philo(int num_philo, t_time *time, pthread_mutex_t *rw)
 {

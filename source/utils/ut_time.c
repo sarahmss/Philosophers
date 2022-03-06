@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 15:35:55 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 15:43:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:09:28 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,40 @@ long long int	formated_time(long long int ms_start)
 void	delay(long long int delay_time)
 {
 	usleep(delay_time * 1000);
+}
+
+static int	print_fed(t_philos *philo)
+{
+	t_bool		all_fed;
+	t_philos	*temp;
+
+	temp = philo;
+	all_fed = true;
+	if (philo->next == philo && philo->time.eaten_times == philo->time.must_eat)
+	{
+		printf("\n\n All philosophers have been fed 🧠🤔🍜\n");
+		return (1);
+	}
+	else if (philo->next == philo)
+		return (0);
+	while (temp->next != philo)
+	{
+		if (temp->time.eaten_times < temp->time.must_eat)
+			all_fed = false;
+		temp = temp->next;
+	}
+	if (all_fed == true)
+	{
+		printf("\n\n All philosophers have been fed 🧠🤔🍜\n");
+		return (1);
+	}
+	return (0);
+}
+
+void	print_exit_status(t_philos *philos)
+{
+	if (print_fed(philos))
+		return ;
+	if (check_if_died(philos))
+		printf("\n\n Some Philosopher died 😵🥣\n");
 }

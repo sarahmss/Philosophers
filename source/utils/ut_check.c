@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 21:48:54 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 23:16:11 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:16:23 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,23 @@
 */
 int	check_full_stomach(t_philos *philo)
 {
+	t_bool		all_fed;
+	t_philos	*temp;
+
+	temp = philo;
+	all_fed = true;
 	if (!philo->time.must_eat)
 		return (0);
 	if (philo->time.eaten_times < philo->time.must_eat)
 		return (0);
+	while (temp->next != philo)
+	{
+		if (temp->time.eaten_times < temp->time.must_eat)
+			all_fed = false;
+		temp = temp->next;
+	}
+	if (all_fed == true)
+		philo->end = true;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:42:22 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 13:53:50 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:16:36 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,12 @@ void	free_lst(t_philos *head)
 	t_philos	*next;
 
 	current = head;
+	if (current->next == head)
+	{
+		pthread_mutex_destroy(&current->mutex_lock);
+		free (current);
+		return ;
+	}
 	while (current->next != head)
 	{
 		next = current->next;
