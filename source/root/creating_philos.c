@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:44:12 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 15:37:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 23:16:55 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_dining_table	*parsing(char *argv[], long long int ms_start)
 	if (!dining_table)
 		ft_check_error(EALLOC, "Creating dining_table", -1);
 	pthread_mutex_init(&dining_table->res_write, NULL);
+	dining_table->time.last_meal = 0;
 	dining_table->philo_num = ft_atoi(argv[1]);
 	dining_table->time.ms_die = ft_atoi(argv[2]);
 	dining_table->time.ms_eat = ft_atoi(argv[3]);

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 21:48:54 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 15:59:56 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/05 23:16:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	check_priority(t_philos *p)
 int	check_able_to_eat(t_philos *philo)
 {
 	if (check_priority(philo) && (philo->next->state != TAKING_FORK)
-		&& (philo->prev->state != TAKING_FORK) && philo->state == THINKING)
+		&& (philo->prev->state != TAKING_FORK) && philo->state == THINKING
+		&& (philo->next->state != EATING) && (philo->prev->state != EATING))
 	{
 		philo->state = EATING;
 		return (1);
