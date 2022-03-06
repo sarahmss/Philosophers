@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:56:26 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:16:03 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:35:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void			pickup_forks(t_philos *philo);
 void			return_forks(t_philos *philo);
 
 // states
-void			st_action(t_states action, long long int time_ms,
-					t_philos *philo, pthread_mutex_t *rw);
+int				eating(long long int time_ms, t_philos *philo,
+					pthread_mutex_t *rw);
+int				sleeping(long long int time_ms, t_philos *philo,
+					pthread_mutex_t *rw);
 int				define_dead(t_philos *philosopher, long long int ms_die,
 					pthread_mutex_t *res_write);
 void			run_action(t_philos *philo, pthread_mutex_t *rw);

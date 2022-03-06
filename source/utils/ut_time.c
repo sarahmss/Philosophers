@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 15:35:55 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:09:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:23:21 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ static int	print_fed(t_philos *philo)
 
 void	print_exit_status(t_philos *philos)
 {
-	if (print_fed(philos))
-		return ;
+	if (philos->time.must_eat)
+		if (print_fed(philos))
+			return ;
 	if (check_if_died(philos))
 		printf("\n\n Some Philosopher died 😵🥣\n");
 }

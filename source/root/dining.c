@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:57:42 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:16:57 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/06 01:44:47 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,16 @@ void	*philosopher_routine(void *param)
 		if (check_able_to_eat(p))
 		{
 			pickup_forks(p);
-			st_action(EATING, p->time.ms_eat, p, &p->res_write);
+			if (eating(p->time.ms_eat, p, &p->res_write) == -1)
+				return (NULL);
 			return_forks(p);
-			st_action(SLEEPING, p->time.ms_sleep, p, &p->res_write);
+			if (sleeping(p->time.ms_sleep, p, &p->res_write) == -1)
+				return (NULL);
 		}
 		define_dead(p, p->time.ms_die, &p->res_write);
 		run_action(p, &p->res_write);
+		if (p->end == true)
+			return (NULL);
 	}
 	return (NULL);
 }
