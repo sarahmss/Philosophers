@@ -75,24 +75,23 @@ void	run_action(t_philos *philo, pthread_mutex_t *rw)
 }
 
 void	print_action(t_states action, int num_philo, long long int ms_start,
-					pthread_mutex_t *res_write)
+				pthread_mutex_t *res_write)
 {
-	long long int		time;
-	char				msg[100];
+	long long int	time;
+	char			msg[100];
 
 	if (action == TAKING_FORK)
 		ft_strcpy(msg, "has taken a fork");
 	if (action == EATING)
-		ft_strcpy(msg, "is eating");
+		ft_strcpy(msg, "\033[37;1mis eating \033[0m");
 	if (action == SLEEPING)
 		ft_strcpy(msg, "is sleeping");
 	if (action == THINKING)
 		ft_strcpy(msg, "is thinking");
 	if (action == DIED)
-		ft_strcpy(msg, "died");
+		ft_strcpy(msg, "\033[1;31mdied \033[0m");
 	pthread_mutex_lock(res_write);
 	time = formated_time(ms_start);
 	printf("%-10lld %d %s \n", time, num_philo, msg);
 	pthread_mutex_unlock(res_write);
-	return ;
 }
