@@ -75,8 +75,6 @@ typedef struct s_philos
 typedef struct s_dining_table
 {
 	int					philo_num;
-	int					num_each_must_eat;
-	int					eaten_times;
 	pthread_mutex_t		res_write;
 	t_time				time;
 	t_philos			*philos;

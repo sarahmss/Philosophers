@@ -33,6 +33,7 @@ int	sleeping(long long int time_ms, t_philos *philo, pthread_mutex_t *rw)
 	print_action(philo->state, philo->philo_num, philo->time.ms_start, rw);
 	delay(time_ms);
 	philo->state = THINKING;
+	print_action(philo->state, philo->philo_num, philo->time.ms_start, rw);
 	return (0);
 }
 

@@ -73,7 +73,6 @@ void	*philosopher_routine(void *param)
 				return (NULL);
 		}
 		define_dead(p, p->time.ms_die, &p->res_write);
-		run_action(p, &p->res_write);
 		if (p->end == true)
 			return (NULL);
 	}
