@@ -10,50 +10,74 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "../../includes/Philosophers.h"
 
-int	define_dead(t_philos *philosopher, long long int ms_die,
-	pthread_mutex_t *res_write)
+int	define_dead(t_philos *p, pthread_mutex_t *r_w)
 {
-	if (philosopher->time.last_meal >= ms_die)
+	int			tot;
+	t_philos	*tmp;
+
+	tmp = p;
+	tot = p->time->philo_tot;
+	while (tot)
 	{
-		philosopher->state = DIED;
-		print_action(DIED, philosopher->philo_num, philosopher->time.ms_start,
-			res_write);
-		philosopher->end = true;
-		return (1);
+		if (tmp->time->last_meal > tmp->time->new_ms_die)
+		{
+			printf("---%d, %lld, %lld\n", tmp->philo_num, tmp->time->last_meal, tmp->time->new_ms_die);
+			tmp->state = DIED;
+			print_action(DIED, tmp->philo_num, tmp->time->ms_start, r_w);
+			check_end(p, tot);
+			return (1);
+		}
+		tot--;
+		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int	sleeping(long long int time_ms, t_philos *philo, pthread_mutex_t *rw)
+int	sleeping(long long int ms_sleep, t_philos *philo, pthread_mutex_t *rw)
 {
-	if (check_if_died(philo) || check_full_stomach(philo))
+	int	tot;
+
+	tot = philo->time->philo_tot;
+	if (check_if_died(philo, tot) || check_full_stomach(philo, tot))
 		return (-1);
-	print_action(philo->state, philo->philo_num, philo->time.ms_start, rw);
-	delay(time_ms);
+	print_action(philo->state, philo->philo_num, philo->time->ms_start, rw);
+	delay(ms_sleep);
 	philo->state = THINKING;
-	print_action(philo->state, philo->philo_num, philo->time.ms_start, rw);
+	print_action(philo->state, philo->philo_num, philo->time->ms_start, rw);
 	return (0);
 }
 
-int	eating(long long int time_ms, t_philos *philo, pthread_mutex_t *rw)
+static int	die_while_sleeping(t_philos *p, pthread_mutex_t *rw)
 {
-	if (check_if_died(philo) || check_full_stomach(philo))
-		return (-1);
-	print_action(philo->state, philo->philo_num, philo->time.ms_start, rw);
-	if (philo->time.ms_die < philo->time.ms_sleep)
+	if (p->time->ms_die < p->time->ms_sleep)
 	{
-		delay(philo->time.ms_die);
-		philo->state = DIED;
-		print_action(DIED, philo->philo_num, philo->time.ms_start, rw);
-		philo->end = true;
-		return_forks(philo);
+		delay(p->time->ms_die);
+		p->state = DIED;
+		print_action(DIED, p->philo_num, p->time->ms_start, rw);
+		check_end(p, p->time->philo_tot);
+		return_forks(p);
 		return (-1);
 	}
-	delay(time_ms);
-	philo->time.eaten_times++;
-	philo->time.last_meal = formated_time(philo->time.ms_start);
+	return (0);
+}
+
+int	eating(long long int ms_eat, t_philos *philo, pthread_mutex_t *rw)
+{
+	int	tot;
+
+	tot = philo->time->philo_tot;
+	if (check_if_died(philo, tot) || check_full_stomach(philo, tot))
+		return (-1);
+	print_action(philo->state, philo->philo_num, philo->time->ms_start, rw);
+	philo->time->eaten_times++;
+	philo->time->last_meal = formated_time(philo->time->ms_start);
+	if (philo->time->eaten_times > 1)
+		philo->time->new_ms_die += formated_time(philo->time->ms_start);
+	if (die_while_sleeping(philo, rw))
+		return (-1);
+	delay(ms_eat);
 	return (0);
 }
 
@@ -62,15 +86,15 @@ void	run_action(t_philos *philo, pthread_mutex_t *rw)
 	if (philo->end == true)
 		return ;
 	if (philo->state == TAKING_FORK)
-		print_action(TAKING_FORK, philo->philo_num, philo->time.ms_start, rw);
+		print_action(TAKING_FORK, philo->philo_num, philo->time->ms_start, rw);
 	if (philo->state == EATING)
-		eating(philo->time.ms_eat, philo, rw);
+		eating(philo->time->ms_eat, philo, rw);
 	if (philo->state == SLEEPING)
-		sleeping(philo->time.ms_sleep, philo, rw);
-	if (philo->state == THINKING && philo->time.eaten_times > 0)
-		print_action(THINKING, philo->philo_num, philo->time.ms_start, rw);
+		sleeping(philo->time->ms_sleep, philo, rw);
+	if (philo->state == THINKING && philo->time->eaten_times > 0)
+		print_action(THINKING, philo->philo_num, philo->time->ms_start, rw);
 	if (philo->state == DIED)
-		print_action(DIED, philo->philo_num, philo->time.ms_start, rw);
+		print_action(DIED, philo->philo_num, philo->time->ms_start, rw);
 	return ;
 }
 

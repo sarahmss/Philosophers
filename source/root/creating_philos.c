@@ -92,6 +92,7 @@ t_dining_table	*parsing(char *argv[], long long int ms_start)
 	pthread_mutex_init(&dining_table->res_write, NULL);
 	dining_table->time.last_meal = 0;
 	dining_table->philo_num = ft_atoi(argv[1]);
+	dining_table->time.philo_tot = ft_atoi(argv[1]);
 	dining_table->time.ms_die = ft_atoi(argv[2]);
 	dining_table->time.ms_eat = ft_atoi(argv[3]);
 	dining_table->time.ms_sleep = ft_atoi(argv[4]);
@@ -99,7 +100,9 @@ t_dining_table	*parsing(char *argv[], long long int ms_start)
 	if (argv[5])
 	dining_table->time.must_eat = ft_atoi(argv[5]);
 	dining_table->time.eaten_times = 0;
+	dining_table->time.new_ms_die = ft_atoi(argv[2]);
 	dining_table->philos = creating_philo(dining_table->philo_num, \
 	&dining_table->time, &dining_table->res_write);
+
 	return (dining_table);
 }

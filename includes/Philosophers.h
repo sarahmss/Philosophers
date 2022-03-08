@@ -34,12 +34,11 @@ void			pickup_forks(t_philos *philo);
 void			return_forks(t_philos *philo);
 
 // states
-int				eating(long long int time_ms, t_philos *philo,
+int				eating(long long int ms_eat, t_philos *philo,
 					pthread_mutex_t *rw);
-int				sleeping(long long int time_ms, t_philos *philo,
+int				sleeping(long long int ms_sleep, t_philos *philo,
 					pthread_mutex_t *rw);
-int				define_dead(t_philos *philosopher, long long int ms_die,
-					pthread_mutex_t *res_write);
+int				define_dead(t_philos *p, pthread_mutex_t *r_w);
 void			run_action(t_philos *philo, pthread_mutex_t *rw);
 void			print_action(t_states action, int num_philo,
 					long long int ms_start, pthread_mutex_t *res_write);

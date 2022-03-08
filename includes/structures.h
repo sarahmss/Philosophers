@@ -39,6 +39,8 @@ typedef enum e_states
 
 typedef struct s_time
 {
+	int				philo_tot;
+	long long int	new_ms_die;
 	long long int	ms_die;
 	long long int	ms_eat;
 	long long int	ms_sleep;
@@ -66,8 +68,8 @@ typedef struct s_philos
 	t_states			state;
 	pthread_mutex_t		mutex_lock;
 	pthread_mutex_t		res_write;
-	t_time				time;
 	t_bool				end;
+	t_time				*time;
 	struct s_philos		*next;
 	struct s_philos		*prev;
 }		t_philos;

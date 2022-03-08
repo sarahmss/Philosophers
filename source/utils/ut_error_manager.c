@@ -10,7 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "../../includes/Philosophers.h"
+
+void	check_end(t_philos *p, int tot)
+{
+	t_philos	*tmp;
+
+	tmp = p;
+	while (tot--)
+	{
+		tmp->end = true;
+		tmp = tmp->next;
+	}
+}
 
 void	before_living(t_dining_table *dt)
 {

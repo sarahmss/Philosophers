@@ -10,7 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "../../includes/Philosophers.h"
+
+t_time	*cp_time(t_time *src)
+{
+	t_time	*dest;
+	dest = (t_time *)malloc(sizeof(t_time));
+	if (!dest)
+		ft_check_error(EALLOC, "Creating time structure", -1);
+	dest->eaten_times = 0;
+	dest->last_meal = src->last_meal;
+	dest->ms_die = src->ms_die;
+	dest->ms_sleep = src->ms_sleep;
+	dest->ms_eat = src->ms_eat;
+	dest->ms_start = src->ms_start;
+	dest->must_eat = src->must_eat;
+	dest->philo_tot = src->philo_tot;
+	dest->new_ms_die = src->new_ms_die;
+	return (dest);
+}
 
 t_philos	*create_philosopher(int index, t_time *time, pthread_mutex_t *rw)
 {
@@ -19,41 +37,15 @@ t_philos	*create_philosopher(int index, t_time *time, pthread_mutex_t *rw)
 	philos = (t_philos *)malloc(sizeof(t_philos));
 	if (!philos)
 		ft_check_error(EALLOC, "Creating philosophers", -1);
+	philos->time = cp_time(time);
 	philos->res_write = *rw;
 	philos->philo_num = index;
-	philos->time.eaten_times = 0;
-	philos->time.last_meal = time->last_meal;
-	philos->time.ms_die = time->ms_die;
-	philos->time.ms_sleep = time->ms_sleep;
-	philos->time.ms_eat = time->ms_eat;
-	philos->time.ms_start = time->ms_start;
-	philos->time.must_eat = time->must_eat;
 	philos->tid = 0;
 	philos->state = THINKING;
 	pthread_mutex_init(&philos->mutex_lock, NULL);
 	philos->prev = NULL;
 	philos->next = NULL;
 	return (philos);
-}
-
-/*
-Insert a new element at the top of a doubly linked list
-*/
-t_philos	*tk_insert_at_head(int index, t_philos *head, t_time *time,
-			pthread_mutex_t *rw)
-{
-	t_philos	*new_philo;
-
-	new_philo = create_philosopher(index, time, rw);
-	if (head == NULL)
-		head = new_philo;
-	else
-	{
-		head->prev = new_philo;
-		new_philo->next = head;
-		head = new_philo;
-	}
-	return (new_philo);
 }
 
 /*
@@ -95,6 +87,7 @@ void	philo_del(t_philos **head, t_philos *del)
 	if (del->prev != NULL)
 		del->prev->next = del->next;
 	pthread_mutex_destroy(&del->mutex_lock);
+	free(del->time);
 	free(del);
 }
 
@@ -110,6 +103,7 @@ void	free_lst(t_philos *head)
 	if (current->next == head)
 	{
 		pthread_mutex_destroy(&current->mutex_lock);
+		free(current->time);
 		free (current);
 		return ;
 	}
@@ -117,6 +111,7 @@ void	free_lst(t_philos *head)
 	{
 		next = current->next;
 		pthread_mutex_destroy(&current->mutex_lock);
+		free(current->time);
 		free (current);
 		current = next;
 	}

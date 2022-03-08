@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "../../includes/Philosophers.h"
 
 int	one_philo(t_philos *philo)
 {
@@ -18,9 +18,9 @@ int	one_philo(t_philos *philo)
 	{
 		philo->state = TAKING_FORK;
 		run_action(philo, &philo->res_write);
-		delay(philo->time.ms_die);
+		delay(philo->time->ms_die);
 		philo->state = DIED;
-		print_action(DIED, philo->philo_num, philo->time.ms_start,
+		print_action(DIED, philo->philo_num, philo->time->ms_start,
 			&philo->res_write);
 		return (1);
 	}
@@ -55,24 +55,26 @@ void	return_forks(t_philos *philo)
 void	*philosopher_routine(void *param)
 {
 	t_philos		*p;
+	int				tot;
 
 	p = (t_philos *)param;
+	tot = p->time->philo_tot;
 	if (one_philo(p))
 		return (NULL);
 	while (1)
 	{
-		if (check_if_died(p) || check_full_stomach(p))
+		if (check_if_died(p, tot) || check_full_stomach(p, tot))
 			return (NULL);
 		if (check_able_to_eat(p))
 		{
 			pickup_forks(p);
-			if (eating(p->time.ms_eat, p, &p->res_write) == -1)
+			if (eating(p->time->ms_eat, p, &p->res_write) == -1)
 				return (NULL);
 			return_forks(p);
-			if (sleeping(p->time.ms_sleep, p, &p->res_write) == -1)
+			if (sleeping(p->time->ms_sleep, p, &p->res_write) == -1)
 				return (NULL);
 		}
-		define_dead(p, p->time.ms_die, &p->res_write);
+		define_dead(p, &p->res_write);
 		if (p->end == true)
 			return (NULL);
 	}

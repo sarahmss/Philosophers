@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "../../includes/Philosophers.h"
 
 int	ft_strlen(const char *str)
 {

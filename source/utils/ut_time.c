@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ut_time.c                                          :+:      :+:    :+:   */
+/*   ut_time->c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "../../includes/Philosophers.h"
 
 long long int	get_current_time(void)
 {
@@ -40,22 +40,23 @@ static int	print_fed(t_philos *philo)
 
 	temp = philo;
 	all_fed = true;
-	if (philo->next == philo && philo->time.eaten_times == philo->time.must_eat)
+	if (philo->next == philo
+		&& philo->time->eaten_times == philo->time->must_eat)
 	{
-		printf("\n\n All philosophers have been fed 🧠🤔🍜\n");
+		printf("\n\033[37;1mAll philosophers have been fed 🧠🤔🍜\n\033[0m");
 		return (1);
 	}
 	else if (philo->next == philo)
 		return (0);
 	while (temp->next != philo)
 	{
-		if (temp->time.eaten_times < temp->time.must_eat)
+		if (temp->time->eaten_times < temp->time->must_eat)
 			all_fed = false;
 		temp = temp->next;
 	}
 	if (all_fed == true)
 	{
-		printf("\n\n All philosophers have been fed 🧠🤔🍜\n");
+		printf("\n\033[37;1m All philosophers have been fed 🧠🤔🍜\n\033[0m");
 		return (1);
 	}
 	return (0);
@@ -63,9 +64,8 @@ static int	print_fed(t_philos *philo)
 
 void	print_exit_status(t_philos *philos)
 {
-	if (philos->time.must_eat)
-		if (print_fed(philos))
-			return ;
-	if (check_if_died(philos))
-		printf("\n\n Some Philosopher died 😵🥣\n");
+	if (check_if_died(philos, philos->time->philo_tot))
+		printf("\n\n \033[37;1mSome Philosopher died 😵🥣\n\033[0m");
+	if (philos->time->must_eat)
+		print_fed(philos);
 }

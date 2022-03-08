@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./Philosophers.h"
+#include "../../includes/Philosophers.h"
 
 /*
 	the last argument of pthread_join and pthread create are pointer that
