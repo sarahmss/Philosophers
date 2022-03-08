@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   creating_philos.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:44:12 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:07:10 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:19:44 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,25 +84,23 @@ t_philos	*creating_philo(int num_philo, t_time *time, pthread_mutex_t *rw)
 
 t_dining_table	*parsing(char *argv[], long long int ms_start)
 {
-	t_dining_table	*dining_table;
+	t_dining_table	*dt;
 
-	dining_table = (t_dining_table *)malloc(sizeof(t_dining_table));
-	if (!dining_table)
-		ft_check_error(EALLOC, "Creating dining_table", -1);
-	pthread_mutex_init(&dining_table->res_write, NULL);
-	dining_table->time.last_meal = 0;
-	dining_table->philo_num = ft_atoi(argv[1]);
-	dining_table->time.philo_tot = ft_atoi(argv[1]);
-	dining_table->time.ms_die = ft_atoi(argv[2]);
-	dining_table->time.ms_eat = ft_atoi(argv[3]);
-	dining_table->time.ms_sleep = ft_atoi(argv[4]);
-	dining_table->time.ms_start = ms_start;
+	dt = (t_dining_table *)malloc(sizeof(t_dining_table));
+	if (!dt)
+		ft_check_error(EALLOC, "Creating dining table", -1);
+	pthread_mutex_init(&dt->res_write, NULL);
+	dt->time.last_meal = 0;
+	dt->philo_num = ft_atoi(argv[1]);
+	dt->time.philo_tot = ft_atoi(argv[1]);
+	dt->time.ms_die = ft_atoi(argv[2]);
+	dt->time.ms_eat = ft_atoi(argv[3]);
+	dt->time.ms_sleep = ft_atoi(argv[4]);
+	dt->time.ms_start = ms_start;
 	if (argv[5])
-	dining_table->time.must_eat = ft_atoi(argv[5]);
-	dining_table->time.eaten_times = 0;
-	dining_table->time.new_ms_die = ft_atoi(argv[2]);
-	dining_table->philos = creating_philo(dining_table->philo_num, \
-	&dining_table->time, &dining_table->res_write);
-
-	return (dining_table);
+	dt->time.must_eat = ft_atoi(argv[5]);
+	dt->time.eaten_times = 0;
+	dt->time.new_ms_die = ft_atoi(argv[2]);
+	dt->philos = creating_philo(dt->philo_num, &dt->time, &dt->res_write);
+	return (dt);
 }

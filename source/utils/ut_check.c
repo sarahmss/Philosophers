@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ut_check.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 21:48:54 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:32:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:20:21 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	get_eaten_times(t_philos *p, int tot)
 	return (tmp->time->eaten_times);
 }
 
-
 int	check_priority(t_philos *p, int tot)
 {
 	t_philos	*tp;
@@ -65,7 +64,7 @@ int	check_priority(t_philos *p, int tot)
 	tp = p;
 	while (tot)
 	{
-		if (eaten_times && p->time->last_meal < tp->time->last_meal)
+		if (eaten_times && p->time->last_meal > tp->time->last_meal)
 			return (0);
 		tp = tp->next;
 		tot--;

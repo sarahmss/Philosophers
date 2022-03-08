@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   dining.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:57:42 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:44:47 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:21:33 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Philosophers.h"
+
+int	define_dead(t_philos *p, pthread_mutex_t *r_w)
+{
+	int			tot;
+	t_philos	*tmp;
+
+	tmp = p;
+	tot = p->time->philo_tot;
+	while (tot)
+	{
+		if (tmp->time->last_meal > tmp->time->new_ms_die)
+		{
+			tmp->state = DIED;
+			run_action(tmp, r_w);
+			check_end(p, tot);
+			return (1);
+		}
+		tot--;
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 int	one_philo(t_philos *philo)
 {
@@ -20,8 +42,7 @@ int	one_philo(t_philos *philo)
 		run_action(philo, &philo->res_write);
 		delay(philo->time->ms_die);
 		philo->state = DIED;
-		print_action(DIED, philo->philo_num, philo->time->ms_start,
-			&philo->res_write);
+		run_action(philo, &philo->res_write);
 		return (1);
 	}
 	return (0);

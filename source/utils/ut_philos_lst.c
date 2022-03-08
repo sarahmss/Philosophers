@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ut_philos_lst.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:42:22 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:16:36 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:18:46 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_time	*cp_time(t_time *src)
 {
 	t_time	*dest;
+
 	dest = (t_time *)malloc(sizeof(t_time));
 	if (!dest)
 		ft_check_error(EALLOC, "Creating time structure", -1);

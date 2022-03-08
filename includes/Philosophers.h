@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:56:26 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:35:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:05:40 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int				eating(long long int ms_eat, t_philos *philo,
 int				sleeping(long long int ms_sleep, t_philos *philo,
 					pthread_mutex_t *rw);
 int				define_dead(t_philos *p, pthread_mutex_t *r_w);
-void			run_action(t_philos *philo, pthread_mutex_t *rw);
+int				run_action(t_philos *philo, pthread_mutex_t *rw);
 void			print_action(t_states action, int num_philo,
 					long long int ms_start, pthread_mutex_t *res_write);
 #endif

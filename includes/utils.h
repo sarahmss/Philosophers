@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:52:10 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/06 01:16:24 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:22:09 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int				ft_check_args(char *argv[]);
 int				ft_check_error(int err_code, char *err_msg, int exit_code);
 void			before_living(t_dining_table *dt);
 void			check_end(t_philos *p, int tot);
-
 
 int				ft_strlen(const char *str);
 int				ft_atoi(const char *str);
