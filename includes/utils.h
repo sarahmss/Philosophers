@@ -33,7 +33,7 @@ void			philo_del(t_philos **head, t_philos *del);
 void			free_lst(t_philos *head);
 t_philos		*tk_insert_at_head(int index, t_philos *head, t_time *time,
 					pthread_mutex_t *rw);
-int				check_able_to_eat(t_philos *philo);
+int				check_able_to_eat(t_philos *p);
 int				check_if_died(t_philos *philos, int tot);
 int				check_full_stomach(t_philos *philo, int tot);
 int				check_priority(t_philos *p, int tot);

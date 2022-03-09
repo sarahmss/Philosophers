@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 21:48:54 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/08 19:20:21 by coder            ###   ########.fr       */
+/*   Updated: 2022/03/08 20:05:24 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,11 @@ int	check_priority(t_philos *p, int tot)
 
 	eaten_times = get_eaten_times(p, tot);
 	tp = p;
-	while (tot)
+	while (tot--)
 	{
 		if (eaten_times && p->time->last_meal > tp->time->last_meal)
 			return (0);
 		tp = tp->next;
-		tot--;
 	}
 	return (1);
 }
@@ -76,16 +75,12 @@ int	check_priority(t_philos *p, int tot)
 	If my left and right neighbors aren't eating, then let me
 	eat.
 */
-int	check_able_to_eat(t_philos *philo)
+int	check_able_to_eat(t_philos *p)
 {
-	if (check_priority(philo, philo->time->philo_tot)
-		&& (philo->next->state != TAKING_FORK)
-		&& (philo->prev->state != TAKING_FORK) && philo->state == THINKING
-		&& (philo->next->state != EATING) && (philo->prev->state != EATING))
-	{
-		philo->state = EATING;
+	if (check_priority(p, p->time->philo_tot) && p->state == THINKING
+		&& (p->next->state != TAKING_FORK) && (p->prev->state != EATING)
+		&& (p->prev->state != TAKING_FORK) && (p->next->state != EATING))
 		return (1);
-	}
 	return (0);
 }
 

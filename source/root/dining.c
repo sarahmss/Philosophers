@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:57:42 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/08 19:21:33 by coder            ###   ########.fr       */
+/*   Updated: 2022/03/09 01:52:35 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	define_dead(t_philos *p, pthread_mutex_t *r_w)
 	int			tot;
 	t_philos	*tmp;
 
+	if (p->end == true)
+		return (1);
 	tmp = p;
 	tot = p->time->philo_tot;
 	while (tot)
@@ -34,17 +36,19 @@ int	define_dead(t_philos *p, pthread_mutex_t *r_w)
 	return (0);
 }
 
-int	one_philo(t_philos *philo)
+int	sleeping(long long int ms_sleep, t_philos *philo, pthread_mutex_t *r_w)
 {
-	if (philo->next == philo)
-	{
-		philo->state = TAKING_FORK;
-		run_action(philo, &philo->res_write);
-		delay(philo->time->ms_die);
-		philo->state = DIED;
-		run_action(philo, &philo->res_write);
-		return (1);
-	}
+	int	tot;
+
+	tot = philo->time->philo_tot;
+	if (check_if_died(philo, tot) || check_full_stomach(philo, tot))
+		return (-1);
+	if (run_action(philo, r_w) == -1)
+		return (-1);
+	delay(ms_sleep);
+	philo->state = THINKING;
+	if (run_action(philo, r_w) == -1)
+		return (-1);
 	return (0);
 }
 

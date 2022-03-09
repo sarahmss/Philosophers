@@ -65,7 +65,10 @@ static int	print_fed(t_philos *philo)
 void	print_exit_status(t_philos *philos)
 {
 	if (check_if_died(philos, philos->time->philo_tot))
+	{
 		printf("\n\n \033[37;1mSome Philosopher died 😵🥣\n\033[0m");
+		return ;
+	}
 	if (philos->time->must_eat)
 		print_fed(philos);
 }

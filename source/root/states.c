@@ -6,29 +6,39 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:31:28 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/08 19:20:45 by coder            ###   ########.fr       */
+/*   Updated: 2022/03/08 20:32:29 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Philosophers.h"
 
-int	sleeping(long long int ms_sleep, t_philos *philo, pthread_mutex_t *r_w)
+/*
+	printf("---%d, %lld > %lld\n\n", tmp->philo_num, tmp->time->last_meal + ms_action, tmp->time->new_ms_die);
+int	diedoing(t_philos *p, pthread_mutex_t *r_w, long long int ms_action)
 {
-	int	tot;
+	int			tot;
+	t_philos	*tmp;
 
-	tot = philo->time->philo_tot;
-	if (check_if_died(philo, tot) || check_full_stomach(philo, tot))
-		return (-1);
-	if (run_action(philo, r_w) == -1)
-		return (-1);
-	delay(ms_sleep);
-	philo->state = THINKING;
-	if (run_action(philo, r_w) == -1)
-		return (-1);
+	tmp = p->next;
+	tot = p->time->philo_tot - 1;
+	while (tot--)
+	{
+		if (tmp->time->last_meal + ms_action > tmp->time->new_ms_die)
+		{
+			delay(tmp->time->new_ms_die - formated_time(p->time->ms_start));
+			if (tmp->state == EATING)
+				return_forks(tmp);
+			tmp->state = DIED;
+			run_action(tmp, r_w);
+			check_end(tmp, tmp->time->philo_tot);
+			return (-1);
+		}
+		tmp = tmp->next;
+	}
 	return (0);
 }
-
-static int	die_while_eating(t_philos *p, pthread_mutex_t *r_w, long long int e)
+*/
+static int	die_eating(t_philos *p, pthread_mutex_t *r_w, long long int e)
 {
 	if (p->time->ms_die < p->time->ms_sleep || p->time->ms_die < e)
 	{
@@ -42,41 +52,40 @@ static int	die_while_eating(t_philos *p, pthread_mutex_t *r_w, long long int e)
 	return (0);
 }
 
-int	eating(long long int ms_eat, t_philos *philo, pthread_mutex_t *r_w)
+int	eating(long long int ms_eat, t_philos *p, pthread_mutex_t *r_w)
 {
-	int	tot;
-
-	tot = philo->time->philo_tot;
-	if (check_if_died(philo, tot) || check_full_stomach(philo, tot))
+	if (p->end == true || run_action(p, r_w) == -1)
 		return (-1);
-	if (run_action(philo, r_w) == -1)
-		return (-1);
-	philo->time->eaten_times++;
-	philo->time->last_meal = formated_time(philo->time->ms_start);
-	if (philo->time->eaten_times > 1)
-		philo->time->new_ms_die += formated_time(philo->time->ms_start);
-	if (die_while_eating(philo, r_w, philo->time->ms_eat))
+	p->time->eaten_times++;
+	p->time->last_meal = formated_time(p->time->ms_start);
+	if (p->time->eaten_times > 1)
+		p->time->new_ms_die += formated_time(p->time->ms_start);
+	if (die_eating(p, r_w, ms_eat))
 		return (-1);
 	delay(ms_eat);
 	return (0);
 }
 
-int	run_action(t_philos *philo, pthread_mutex_t *r_w)
+int	run_action(t_philos *p, pthread_mutex_t *r_w)
 {
-	check_if_died(philo, philo->time->philo_tot);
-	check_full_stomach(philo, philo->time->philo_tot);
-	if (philo->end == true)
+	int	tot;
+
+	tot = p->time->philo_tot;
+	check_full_stomach(p, tot);
+	if (p->end == true || (check_if_died(p, tot) && p->state != DIED))
 		return (-1);
-	if (philo->state == TAKING_FORK)
-		print_action(TAKING_FORK, philo->philo_num, philo->time->ms_start, r_w);
-	if (philo->state == EATING)
-		print_action(EATING, philo->philo_num, philo->time->ms_start, r_w);
-	if (philo->state == SLEEPING)
-		print_action(SLEEPING, philo->philo_num, philo->time->ms_start, r_w);
-	if (philo->state == THINKING && philo->time->eaten_times > 0)
-		print_action(THINKING, philo->philo_num, philo->time->ms_start, r_w);
-	if (philo->state == DIED)
-		print_action(DIED, philo->philo_num, philo->time->ms_start, r_w);
+	if (p->state == TAKING_FORK)
+		print_action(TAKING_FORK, p->philo_num, p->time->ms_start, r_w);
+	else if (p->state == EATING)
+		print_action(EATING, p->philo_num, p->time->ms_start, r_w);
+	else if (p->state == SLEEPING)
+		print_action(SLEEPING, p->philo_num, p->time->ms_start, r_w);
+	else if (p->state == THINKING && p->time->eaten_times > 0)
+		print_action(THINKING, p->philo_num, p->time->ms_start, r_w);
+	else if (p->state == DIED)
+		print_action(DIED, p->philo_num, p->time->ms_start, r_w);
+//	if (diedoing(p, r_w, p->time->ms_eat) || diedoing(p, r_w, p->time->ms_die))
+//		return (-1);
 	return (0);
 }
 

@@ -18,6 +18,20 @@
 	in pthread_join we store at result the return value of function in myturn
 */
 
+int	one_philo(t_philos *philo)
+{
+	if (philo->next == philo)
+	{
+		philo->state = TAKING_FORK;
+		run_action(philo, &philo->res_write);
+		delay(philo->time->ms_die);
+		philo->state = DIED;
+		run_action(philo, &philo->res_write);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	char				msg[55];
