@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2022/03/05 15:40:15 by smodesto         ###   ########.fr        #
+#    Updated: 2022/03/15 20:18:29 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ OBJS_PATH		= ./objects/
 
 SRCS_FILES =	root/Philo.c			\
 				root/states.c			\
+				root/eating.c			\
 				root/creating_philos.c	\
 				root/dining.c			\
 				utils/ut_lft.c			\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   states.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:31:28 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/08 20:32:29 by coder            ###   ########.fr       */
+/*   Updated: 2022/03/15 20:15:00 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,22 @@ int	diedoing(t_philos *p, pthread_mutex_t *r_w, long long int ms_action)
 	return (0);
 }
 */
-static int	die_eating(t_philos *p, pthread_mutex_t *r_w, long long int e)
+
+int	sleeping(long long int ms_sleep, t_philos *philo, pthread_mutex_t *r_w)
 {
-	if (p->time->ms_die < p->time->ms_sleep || p->time->ms_die < e)
-	{
-		delay(p->time->ms_die);
-		p->state = DIED;
-		run_action(p, r_w);
-		check_end(p, p->time->philo_tot);
-		return_forks(p);
+	if (run_action(philo, r_w) == -1)
 		return (-1);
-	}
+	delay(ms_sleep);
+	philo->state = THINKING;
 	return (0);
 }
 
-int	eating(long long int ms_eat, t_philos *p, pthread_mutex_t *r_w)
+int	thinking(t_philos *philo, pthread_mutex_t *r_w)
 {
-	if (p->end == true || run_action(p, r_w) == -1)
+	if (run_action(philo, r_w) == -1)
 		return (-1);
-	p->time->eaten_times++;
-	p->time->last_meal = formated_time(p->time->ms_start);
-	if (p->time->eaten_times > 1)
-		p->time->new_ms_die += formated_time(p->time->ms_start);
-	if (die_eating(p, r_w, ms_eat))
-		return (-1);
-	delay(ms_eat);
-	return (0);
+	delay(5);
+	return(0);
 }
 
 int	run_action(t_philos *p, pthread_mutex_t *r_w)
