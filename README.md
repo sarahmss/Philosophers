@@ -7,4 +7,4 @@ All info about the project can be found in Wiki pages:
 3.  [What is a process?](https://github.com/sarahmss/Philosophers/wiki/What-is-a-process%3F)
 4.  [What is a Thread?](https://github.com/sarahmss/Philosophers/wiki/What-is-a-Thread%3F)
 5.  [Allowed Functions](https://github.com/sarahmss/Philosophers/wiki/Allowed-functions)
-6.  [Testes](https://github.com/sarahmss/Philosophers/projects/1)
+6.  [Tests](https://github.com/sarahmss/Philosophers/projects/1)
