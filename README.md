@@ -1,6 +1,6 @@
 # Philosophers
 In this project, you will learn the basics of threading a process. You will see how to create threads and you will discover mutexes.
-You can se how i 
+ 
 All info about the project can be found in Wiki pages:
 1.  [Workflow, scenario and problems](https://github.com/sarahmss/Philosophers/wiki)
 2.  [Threads int pt-br](https://github.com/sarahmss/Philosophers/wiki/Thread-pt-br)
