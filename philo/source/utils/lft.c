@@ -1,16 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ut_lft.c                                           :+:      :+:    :+:   */
+/*   lft.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/23 19:15:22 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 23:30:59 by smodesto         ###   ########.fr       */
+/*   Created: 2022/04/27 14:48:54 by morgana           #+#    #+#             */
+/*   Updated: 2022/04/28 14:21:35 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Philosophers.h"
+
+long	ft_atol(const char *nptr)
+{
+	long int	sign;
+	long int	res;
+
+	while ((*nptr && *nptr == ' ') || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	sign = 1;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+			sign = -sign;
+		nptr++;
+	}
+	res = 0;
+	while (*nptr && ft_isdigit(*nptr))
+	{
+		res = (res * 10) + (*nptr - '0');
+		nptr++;
+	}
+	return (res * sign);
+}
+
+int	ft_isdigit(int c)
+{
+	if (48 <= c && c <= 57)
+		return (1);
+	else
+		return (0);
+}
 
 int	ft_strlen(const char *str)
 {

@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2022/03/15 20:18:29 by smodesto         ###   ########.fr        #
+#    Updated: 2022/04/30 15:33:55 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,17 +16,15 @@ SRC_PATH		= ./source/
 INCLUDES_PATH	= ./includes/
 OBJS_PATH		= ./objects/
 
-SRCS_FILES =	root/Philo.c			\
-				root/states.c			\
-				root/eating.c			\
-				root/creating_philos.c	\
-				root/dining.c			\
-				utils/ut_lft.c			\
-				utils/ut_error_manager.c\
-				utils/ut_philos_lst.c	\
-				utils/ut_time.c			\
-				utils/ut_check.c
-
+SRCS_FILES =	root/main.c					\
+				root/parsing.c				\
+				root/philo.c				\
+				utils/error_manager.c		\
+				root/check_end.c			\
+				root/dinner.c				\
+				utils/lft.c					\
+				utils/time.c				\
+				utils/philos_lst.c
 
 SRCS = $(addprefix $(SRC_PATH), $(SRCS_FILES))
 

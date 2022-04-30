@@ -1,63 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ut_error_manager.c                                 :+:      :+:    :+:   */
+/*   error_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 11:10:28 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/05 13:46:34 by smodesto         ###   ########.fr       */
+/*   Created: 2022/04/27 14:44:54 by morgana           #+#    #+#             */
+/*   Updated: 2022/04/30 14:30:51 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Philosophers.h"
 
-void	check_end(t_philos *p, int tot)
+void	before_living(t_philos *philo)
 {
-	t_philos	*tmp;
+	t_dt	*data;
 
-	tmp = p;
-	while (tot--)
-	{
-		tmp->end = true;
-		tmp = tmp->next;
-	}
-}
-
-void	before_living(t_dining_table *dt)
-{
-	free_lst(dt->philos);
-	pthread_mutex_destroy(&dt->res_write);
-	free(dt);
+	data = philo->data;
+	free_lst(philo);
+	if (data->lock_print)
+		free(data->lock_print);
+	if (data->lock_dinner)
+		free(data->lock_dinner);
+	if (data)
+		free(data);
 	return ;
-}
-
-int	ft_isdigit(int c)
-{
-	if (48 <= c && c <= 57)
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_check_args(char *argv[])
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (argv[i])
-	{
-		j = 0;
-		while (argv[i][j])
-		{
-			if (!ft_isdigit(argv[i][j]))
-				return (-1);
-			j++;
-		}
-		i++;
-	}
-	return (0);
 }
 
 /*

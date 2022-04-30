@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:52:10 by smodesto          #+#    #+#             */
-/*   Updated: 2022/03/08 19:22:09 by coder            ###   ########.fr       */
+/*   Updated: 2022/04/28 16:29:55 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,27 @@
 
 # include "structures.h"
 
-int				ft_check_args(char *argv[]);
-int				ft_check_error(int err_code, char *err_msg, int exit_code);
-void			before_living(t_dining_table *dt);
-void			check_end(t_philos *p, int tot);
+//	Error manager
+int			ft_check_error(int err_code, char *err_msg, int exit_code);
+void		before_living(t_philos *philo);
 
-int				ft_strlen(const char *str);
-int				ft_atoi(const char *str);
-char			*ft_strcpy(char *destination, const char *source);
-char			*ft_join_var(unsigned int arg_quantity, ...);
+//	Libft
+int			ft_isdigit(int c);
+long		ft_atol(const char *nptr);
+int			ft_strlen(const char *str);
+char		*ft_strcpy(char *destination, const char *source);
+int			ft_atoi(const char *str);
 
-t_philos		*create_philosopher(int index, t_time *time,
-					pthread_mutex_t *rw);
-void			philo_insert_at_foot(int philo_num, t_philos *head,
-					t_time*time, pthread_mutex_t *rw);
-void			philo_del(t_philos **head, t_philos *del);
-void			free_lst(t_philos *head);
-t_philos		*tk_insert_at_head(int index, t_philos *head, t_time *time,
-					pthread_mutex_t *rw);
-int				check_able_to_eat(t_philos *p);
-int				check_if_died(t_philos *philos, int tot);
-int				check_full_stomach(t_philos *philo, int tot);
-int				check_priority(t_philos *p, int tot);
+//	Philos list
+t_philos	*create_philosopher(int index, t_dt *data);
+void		philo_insert_at_foot(int index, t_philos *head, t_dt *data);
+void		philo_del(t_philos **head, t_philos *del);
+void		free_lst(t_philos *head);
 
-long long int	get_current_time(void);
-long long int	formated_time(long long int ms_start);
-void			delay(long long int delay_time);
+//time
+long		get_current_time(void);
+void		delay(int delay_time);
+long		formated_time(long first_time);
+void		msleep(int time_in_ms);
+
 #endif
