@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_dead.c                                       :+:      :+:    :+:   */
+/*   check_end.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:05:55 by smodesto          #+#    #+#             */
-/*   Updated: 2022/04/30 15:33:09 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/05/01 11:04:04 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_last_meal(t_philos *philo)
 	return (last_meal);
 }
 
-int	get_meals(t_philos *philo)
+int	count_meals(t_philos *philo)
 {
 	int	meals;
 
@@ -50,7 +50,7 @@ static t_bool	philos_fed(t_philos *philos)
 	i = 0;
 	while (philos->data->number_of_philos > i++)
 	{
-		if (get_meals(temp) == temp->data->times_must_eat)
+		if (count_meals(temp) == temp->data->times_must_eat)
 			philos_fed++;
 		temp = temp->next;
 	}

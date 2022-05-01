@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:56:26 by smodesto          #+#    #+#             */
-/*   Updated: 2022/04/30 15:33:13 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/05/01 11:04:00 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		print_action(t_philos *philo, t_states action);
 //	supervisor
 void		*check_end(void *ptr);
 int			get_last_meal(t_philos *philo);
-int			get_meals(t_philos *philo);
+int			count_meals(t_philos *philo);
 
 //	dinner
 void		*philosophers_routine(void *ptr);

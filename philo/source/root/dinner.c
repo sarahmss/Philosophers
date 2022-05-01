@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:22:38 by smodesto          #+#    #+#             */
-/*   Updated: 2022/04/30 15:14:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/05/01 11:08:36 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	*philosophers_routine(void *ptr)
 
 	philo = (t_philos *)ptr;
 	if (philo->name % 2)
-		msleep(5);
+		msleep(10);
 	if (philo->data->alone == true)
 		return (only_one(philo));
-	while (!dinner_is_over(philo))
+	while (dinner_is_over(philo) == false)
 	{
 		eating(philo);
-		if (get_meals(philo) == philo->data->times_must_eat)
+		if (count_meals(philo) == philo->data->times_must_eat)
 			return (NULL);
 		sleeping(philo);
 		thinking(philo);
