@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 14:36:54 by morgana           #+#    #+#             */
-/*   Updated: 2022/04/28 16:35:15 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/05/01 12:27:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ int	ft_check_args(char *argv[])
 
 void	parsing_args(int argc, char *argv[], t_dt *dt)
 {
+	char	m[60];
+
+	ft_strcpy(m, "Invalid Arguments[./philo n_ph t_die t_eat t_sleep n_meal]");
 	if (argc < 5 || argc > 6 || ft_check_args(argv))
-		ft_check_error(EXIT_FAILURE, "Invalid Arguments", -1);
+		ft_check_error(EXIT_FAILURE, m, -1);
 	dt->number_of_philos = ft_atoi(argv[1]);
 	dt->ms_to_die = ft_atoi(argv[2]);
 	dt->ms_to_eat = ft_atoi(argv[3]);

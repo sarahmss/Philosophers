@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 14:44:54 by morgana           #+#    #+#             */
-/*   Updated: 2022/04/30 14:30:51 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/05/01 12:06:34 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,12 @@ void	before_living(t_philos *philo)
 int	ft_check_error(int err_code, char *err_msg, int exit_code)
 {
 	if (exit_code < 0)
-	{
-		printf("ERROR: %s\n", err_msg);
+		write(STDERR_FILENO, "ERROR: ", 8);
+	write(STDERR_FILENO, err_msg, ft_strlen(err_msg));
+	write(STDERR_FILENO, "\n", 2);
+	if (exit_code < 0)
 		exit(err_code);
-	}
 	if (exit_code == 0)
-	{
-		printf("%s", err_msg);
 		exit(0);
-	}
-	if (exit_code > 0)
-		printf("ERROR: %s\ns", err_msg);
 	return (err_code);
 }

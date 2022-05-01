@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:42:22 by smodesto          #+#    #+#             */
-/*   Updated: 2022/04/30 15:10:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2022/05/01 12:22:08 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	print_action(t_philos *philo, t_states action)
 	else if (action == DIED)
 		ft_strcpy(msg, "\033[1;31mdied \033[0m");
 	else if (action == END_DEAD)
-		printf("\n\n \033[37;1mSome Philosopher died 😵🥣\n\033[0m");
+		printf("\n\033[37;1mSome Philosopher starved to death 😵🥣\n\033[0m");
 	else if (action == END_FED)
 		printf("\n\033[37;1m All philosophers have been fed 🧠🤔🍜\n\033[0m");
 	current_time = formated_time(philo->data->ms_init);
